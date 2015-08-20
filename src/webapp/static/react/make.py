@@ -22,6 +22,9 @@ BASE_DIR = os.path.dirname(os.path.join(os.getcwd(), __file__))
 SRC_PATH = os.path.join(BASE_DIR, "src")
 DES_PATH = os.path.join(BASE_DIR, "build")
 
+if os.path.exists(DES_PATH) == False:
+	os.system("mkdir %s" %(DES_PATH) )
+
 # .module-cache
 def sync_dirs(src, des):
     # 同步目录
