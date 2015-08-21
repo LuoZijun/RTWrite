@@ -90,3 +90,14 @@ Properties::
 
     Number detail
     DOMAbstractView view
+
+
+键盘输入事件处理
+----------------------------
+
+输入法编辑器(IME)
+^^^^^^^^^^^^^^^^^^^^^
+
+IME Key Code: 229, Opera: 197
+
+console.log("Event Type: ", e.type, ",\tKeyCode: ", e.which, ",\tTime: ", e.timeStamp);

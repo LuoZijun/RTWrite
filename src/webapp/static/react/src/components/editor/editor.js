@@ -1,17 +1,50 @@
 if ( !window.components ) window.components = {};
 if ( !window.components.editor ) window.components.editor = {};
 
+/*
+records = [];  // change set
+
+// JSON RPC2
+// Method:
+
+//      updateFileMeta
+//      updateFileContent
+//          method: append  params: [ x, y, []  ]
+//          method: insert  
+
+postion: [ null, null ]
+action: insert, append, remove
+//          insert(index, object) -- insert object before index
+//          remove(value) -- remove first occurrence of value.
+//          append(object) -- append object to end
+data:   
+
+{
+    "document": "17a581f42cfcfdc4733f8c0618c714f932534b66add10e2978f17e564c5a6c47",
+    "author"
+    "method": "push",
+    "params": [  ], // 
+    "client_time": 12334554.45756756,
+    "server_time": null
+}
+
+insertLine
+
+
+*/
 window.components.editor.editor = React.createClass({
     displayName: "components.editor.editor",
     name: "编辑器",
     // api: new apis.tests(),
-    onIME: true,
+    onIME: false, 
+    IME_DATA: [],
     getInitialState: function (){
         var self = this;
         window.edit = this;
-        return {"content": []};
+        // return {"content": []};
+        // 9: Tab, 32: Space
         return {"content": [
-            [9, 25105, 26159, 35841],
+            [25105, 26159, 35841],
             [25105, 20063, 19981, 30693, 36947, 12290]
         ] };
     },
@@ -22,9 +55,9 @@ window.components.editor.editor = React.createClass({
         
     },
     componentDidUpdate: function (){
-        $(".editor").keydown(function (e){
-            console.log("jquery sim keydown.");
-        });
+        // $(".editor").keydown(function (e){
+        //     console.log("jquery sim keydown.");
+        // });
     },
     pull: function (){
         var self = this;
@@ -37,68 +70,33 @@ window.components.editor.editor = React.createClass({
         };
         // 获取文件列表
     },
-    onKeyUp: function (e, rid){
-        /*
-            https://facebook.github.io/react/docs/events.html
-
-            Event names:  
-                onKeyDown onKeyPress onKeyUp
-
-            Properties:
-                boolean altKey
-                Number charCode
-                boolean ctrlKey
-                function getModifierState(key)
-                String key
-                Number keyCode
-                String locale
-                Number location
-                boolean metaKey
-                boolean repeat
-                boolean shiftKey
-                Number which
-        */
-        console.log("EventType: ", e.type, "KeyCode: ", e.which, "Time: ", e.timeStamp);
-        console.log(e.key);
-        console.log(e.ctrlKey);
-        console.log(e.metaKey);
-        console.log(e.shiftKey);
-        console.log(e.altKey);
-        console.log(e.repeat);
-        console.log(e.charCode);
-        console.log(e.key); // Backspace, Delete
-    },
     onUpdate: function (e, rid){
         var self = this;
-        var dom = $(e.target);
-        var content = dom.html();
-        // Events: onBlur, onInput, onKeyDown, onKeyUp
-        // Not Support: onKeyPress, onFocus, onChange
-        //                       onCopy onCut onPaste
-        // Note: IME Key Code: 229, Opera: 197
-        //             http://www.cnblogs.com/cathsfz/archive/2011/05/29/2062382.html
         // console.log("Event Type: ", e.type, ",\tKeyCode: ", e.which, ",\tTime: ", e.timeStamp);
-        // console.log(e.location, " -- ", e.charCode);
-        if ( e.type == "input" ) {
-
+        // https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/keyCode
+        var KeyCode = { "229": "IME", "13": "Enter", "39": "Right", "37": "Left", "38": "Up", "40": "Down", "32": "Space"  };
+        if ( e.type == "focus" ) {
+            // make session.
         } else if ( e.type == "keydown" ) {
             if ( e.which == 229 ) {
+                // IME KEY
                 this.onIME = true;
+            } else {
+                this.IME_DATA = [];
             }
-            if ( e.which == 13 ) {
-                // 新建一行
-                // var content = this.state.content;
-                // content.push([25105]);
-                // this.setState( {"content": content } );
-            }
-            
         } else if ( e.type == "keyup" ) {
-            // compute diff
-            // var b = this.state.content.map(function (l, i){
-            //     return l.map(function (c, p){
-            //         return unichr(c);
-            //     }).join("");
-            // }).join("\n");
+            if ( this.onIME == true ) {
+                this.IME_DATA.push( e.which ); 
+                console.log("输入法: ", JSON.stringify( this.IME_DATA ) );
+                // Space
+                this.onIME = false;
+            } else {
+                
+            }
+        } else if ( e.type == "input" ) {
+            // 可以监听虚拟键盘的输入
+            if ( this.onIME ) return ;
+            console.log( $(".editor")[0].innerText );
             var b = $(".editor")[0].innerText.split("\n").map(function (line, i){
                 return line.bytes();
             });
@@ -107,97 +105,71 @@ window.components.editor.editor = React.createClass({
             }
             this.diff(b);
         } else if ( e.type == "blur" ) {
+            // remove session.
 
         } else {
-            
+            // pass event type.
+
         }
     },
     diff: function (b){
         // 比较差异
         var self = this;
         var a = this.state.content;
+        console.log(JSON.stringify(a));
         console.log(JSON.stringify(b));
 
-        var result = {"bXY": [undefined, undefined], "eXY": [undefined, undefined], "data": []};
-        var result = {"bx": undefined, "by": undefined, "xdata": [], "ydata": []};
-        // {"replace": {"line": undefined, "bpos": undefined, "epos": undefined, "old_data": undefined, "new_data": undefined} }
-        // {"delete": {"line": undefined, "bpos": undefined, "epos": undefined, "old_data": undefined, "new_data": ""} }
-        // {"append": {"line": undefined, "bpos": undefined, "epos": undefined, "old_data": undefined, "new_data": undefined} }
-        // {"push": {"x": undefined, "y": undefined, "data":[] } }
-        // {"replace": {"x": undefined, "y": undefined, "data":[undefined, undefined] } }
-        // {"push": {"x": undefined, "y": undefined, "data":[] } }
-        // {"push": {"x": undefined, "y": undefined, "data":[] } }
         var result = [ ];
-        var dp2 = function (c, d, l){
-
-        };
-        // filter
-        var dp = function (c, d, l){
-            if ( c.length == d.length ) {
-                if ( range(l+1, c.length).every(function (i){
-                    return c[i].join(",") == d[i].join(",");
-                }) ) {
-
-                } else {
-
-                }
-            } else if ( c.length < d.length ) {
-
-            } else if ( c.length > d.length ) {
-
-            }
-        };
         var i, _i;
         if ( a.length == 0 && b.length == 0 ) {
             // 无差异
             console.info(":: 无差异.");
+            return ;
         }
         if ( a.length == 0 && b.length > 0 ) {
-
+            // 追加
+            console.info("新增内容主体.");
+            return;
         }
         if ( a.length > 0 && b.length == 0 ) {
-
+            // 删除
+            console.info("清空内容主体.");
+            return;
         }
+
         // 正常情况 a.length != 0 && b.length != 0
+        var lines = [];
         for ( i=0; i<a.length; i++ ) {
             if ( a[i].join(",") != b[i].join(",") ) {
-                var lines = [i];
+                lines.push(i);
                 if ( a.length == b.length ) {
                     for ( _i=i+1; _i<a.length; _i++ ) {
                         if ( a[_i].join(",") != b[_i].join(",") ) {
                             lines.push(_i);
                         }
                     }
-                } else if ( a.length > b.length ){
-                    for ( _i=i+1; _i<b.length; _i++ ) {
+                } else if ( b.length > a.length ){
+                    for ( _i=i+1; _i<a.length; _i++ ) {
                         if ( a[_i].join(",") == b[_i].join(",") ) {
-                            // lines.push(_i);
-                            // b[_i]
+                            lines.push(_i);
                         }
                     }
-                } else if ( a.length < b.length ){
-
+                    range(a.length, b.length).map(function (l){
+                        lines.push(l);
+                    });
+                } else if ( b.length < a.length ){
+                    for ( _i=i+1; _i<b.length; _i++ ) {
+                        if ( b[_i].join(",") == a[_i].join(",") ) {
+                            lines.push(_i);
+                        }
+                    }
                 } else {
                     throw new Error("unknow error.");
                 }
                 break;
             }
         }
-
-        this.state.content.map(function (line, index){
-            if ( line.join(",") != b[index].join(",") ){
-                // 行差异
-                // result['bx'][0] = index;
-                line.map(function (char_code, pos){
-                    if ( b[index][pos] != char_code ) {
-                        // 列差异
-                        result['bXY'][1]
-                    }
-                })
-            }
-             
-        });
-
+        console.info(lines);
     },
     merge: function (target, diff_result){
         // 合并差异
@@ -268,11 +240,12 @@ window.components.editor.editor = React.createClass({
         return (
             <div 
                 className="editor" 
-                contentEditable={true} 
+                contentEditable={true}
+                onKeyDown={self.onUpdate}
                 onKeyUp={self.onUpdate}
                 // onKeyUp={self.onUpdate}
                 // onBlur={self.onUpdate}
-                // onInput={self.onUpdate}
+                onInput={self.onUpdate}
                 onClick={self.getPos}
                 dangerouslySetInnerHTML={{__html: this.render_content(this.state.content) }} 
                 style={{ "width": "400px", "height": "400px", "border-style": "solid", "border-color": "yellow" }} />
