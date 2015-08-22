@@ -43,10 +43,7 @@ window.components.editor.editor = React.createClass({
         window.edit = this;
         // return {"content": []};
         // 9: Tab, 32: Space
-        return {"content": [
-            [25105, 26159, 35841],
-            [25105, 20063, 19981, 30693, 36947, 12290]
-        ] };
+        return {"content": [ 25105, 26159, 35841, 10, 25105, 20063, 19981, 30693, 36947, 12290] };
     },
     componentDidMount: function (){
         
@@ -96,8 +93,12 @@ window.components.editor.editor = React.createClass({
         } else if ( e.type == "input" ) {
             // 可以监听虚拟键盘的输入
             if ( this.onIME ) return ;
-            console.log( $(".editor")[0].innerText );
-            var b = $(".editor")[0].innerText.split("\n").map(function (line, i){
+            var text = $(".editor")[0].innerText;
+            // console.log( text );
+            this.diff( text.bytes() );
+            return;
+
+            var b = text.split("\n").map(function (line, i){
                 return line.bytes();
             });
             if (b[b.length-1].length == 0) {
@@ -116,11 +117,10 @@ window.components.editor.editor = React.createClass({
         // 比较差异
         var self = this;
         var a = this.state.content;
+
         console.log(JSON.stringify(a));
         console.log(JSON.stringify(b));
 
-        var result = [ ];
-        var i, _i;
         if ( a.length == 0 && b.length == 0 ) {
             // 无差异
             console.info(":: 无差异.");
@@ -138,43 +138,36 @@ window.components.editor.editor = React.createClass({
         }
 
         // 正常情况 a.length != 0 && b.length != 0
-        var lines = [];
+        var result = {"start": undefined, "end": undefined, "data": [] };
+        var i, _i;
+
         for ( i=0; i<a.length; i++ ) {
-            if ( a[i].join(",") != b[i].join(",") ) {
-                lines.push(i);
-                if ( a.length == b.length ) {
-                    for ( _i=i+1; _i<a.length; _i++ ) {
-                        if ( a[_i].join(",") != b[_i].join(",") ) {
-                            lines.push(_i);
-                        }
+            if ( b.length >= i ) {
+                if ( a[i] != b[i] ) {
+                    result['start'] = i;
+                    for ( ii=i+Math.abs(a.length - b.length); ii<b.length; ii++ ) {
+
                     }
-                } else if ( b.length > a.length ){
-                    for ( _i=i+1; _i<a.length; _i++ ) {
-                        if ( a[_i].join(",") == b[_i].join(",") ) {
-                            lines.push(_i);
-                        }
-                    }
-                    range(a.length, b.length).map(function (l){
-                        lines.push(l);
-                    });
-                } else if ( b.length < a.length ){
-                    for ( _i=i+1; _i<b.length; _i++ ) {
-                        if ( b[_i].join(",") == a[_i].join(",") ) {
-                            lines.push(_i);
-                        }
-                    }
-                } else {
-                    throw new Error("unknow error.");
+                    break;
                 }
+            } else if ( b.length < i ) {
+                result['start'] = i;
+                result['end'] = -1;
+                result['data'] = [];
                 break;
             }
+            
         }
-        console.info(lines);
     },
     merge: function (target, diff_result){
         // 合并差异
     },
     render_content: function (c){
+        return c.map(function (code, index){
+            if ( unichr(code) == "\n" ) return "<br />\n";
+            else return unichr(code);
+        }).join("");
+        ///////////////////////
         var lines = c.map(function (line, index){
             return line.map(function (char_code, pos){
                 return unichr(char_code);
