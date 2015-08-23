@@ -156,9 +156,21 @@ window.components.editor.editor = React.createClass({
                     result['start'] = i;
                 }
             } else if ( a.length > b.length ) {
-
+                if (  result['start'] != undefined ) {
+                    if (
+                        range(i-1, a.length).every(function (ii){
+                            return a[ii] == b[ii-Math.abs(a.length-b.length)];
+                        })
+                    ) {
+                        result['end'] = i-1;
+                        result['data'] = a.slice(result['start'], result['end']);
+                        break;
+                    }
+                } else if ( a[i] != b[i] ) {
+                    result['start'] = i;
+                }
             } else if ( a.length < b.length ) {
-
+                
             }
         }
         console.log("Result: ", JSON.stringify(result) );
