@@ -139,8 +139,7 @@ window.components.editor.editor = React.createClass({
 
         // 正常情况 a.length != 0 && b.length != 0
         var result = {"start": undefined, "end": undefined, "data": [] };
-        var i, _i;
-        for ( i=0; i<a.length; i++ ) {
+        for ( var i=0; i<a.length; i++ ) {
             if ( a.length == b.length ) {
                 if (  result['start'] != undefined ) {
                     if (
