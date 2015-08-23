@@ -140,24 +140,29 @@ window.components.editor.editor = React.createClass({
         // 正常情况 a.length != 0 && b.length != 0
         var result = {"start": undefined, "end": undefined, "data": [] };
         var i, _i;
-
         for ( i=0; i<a.length; i++ ) {
-            if ( b.length >= i ) {
-                if ( a[i] != b[i] ) {
-                    result['start'] = i;
-                    for ( ii=i+Math.abs(a.length - b.length); ii<b.length; ii++ ) {
-
+            if ( a.length == b.length ) {
+                if (  result['start'] != undefined ) {
+                    if (
+                        range(i-1, a.length).every(function (ii){
+                            return a[ii] == b[ii];
+                        })
+                    ) {
+                        result['end'] = i-1;
+                        result['data'] = b.slice(result['start'], result['end']);
+                        break;
                     }
-                    break;
+                } else if ( a[i] != b[i] ) {
+                    result['start'] = i;
                 }
-            } else if ( b.length < i ) {
-                result['start'] = i;
-                result['end'] = -1;
-                result['data'] = [];
-                break;
+            } else if ( a.length > b.length ) {
+
+            } else if ( a.length < b.length ) {
+
             }
-            
         }
+        console.log("Result: ", JSON.stringify(result) );
+        return result;
     },
     merge: function (target, diff_result){
         // 合并差异

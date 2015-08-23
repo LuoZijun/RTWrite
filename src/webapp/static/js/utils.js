@@ -14,7 +14,12 @@ String.prototype.bytes = function (){
         return ord(self[i]);
     });
 };
-
+Array.prototype.to_string = function (){
+    var self = this;
+    return range(this.length).map(function (i){
+        return unichr(self[i]);
+    }).join("");
+};
 
 function print(msg){
     if ( window.setting && window.setting.debug == true ) {
