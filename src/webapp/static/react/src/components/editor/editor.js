@@ -121,24 +121,32 @@ window.components.editor.editor = React.createClass({
         console.log(JSON.stringify(a));
         console.log(JSON.stringify(b));
 
+        var result = {"start": undefined, "end": undefined, "data": [] };
+        
         if ( a.length == 0 && b.length == 0 ) {
             // 无差异
-            console.info(":: 无差异.");
-            return ;
+            console.info(":: 无差异."); return ;
         }
         if ( a.length == 0 && b.length > 0 ) {
             // 追加
             console.info("新增内容主体.");
-            return;
+            result['start'] = 0;
+            result['end'] = 0;
+            result['data'] = b;
+            console.log("Result: ", JSON.stringify(result) );
+            return result;
         }
         if ( a.length > 0 && b.length == 0 ) {
             // 删除
             console.info("清空内容主体.");
-            return;
+            result['start'] = 0;
+            result['end'] = -1;
+            result['data'] = [];
+            console.log("Result: ", JSON.stringify(result) );
+            return result;
         }
 
         // 正常情况 a.length != 0 && b.length != 0
-        var result = {"start": undefined, "end": undefined, "data": [] };
         for ( var i=0; i<a.length; i++ ) {
             if ( a.length == b.length ) {
                 if (  result['start'] != undefined ) {
