@@ -96,15 +96,6 @@ window.components.editor.editor = React.createClass({
             var text = $(".editor")[0].innerText;
             // console.log( text );
             this.diff( text.bytes() );
-            return;
-
-            var b = text.split("\n").map(function (line, i){
-                return line.bytes();
-            });
-            if (b[b.length-1].length == 0) {
-                b.splice(-1, 1);
-            }
-            this.diff(b);
         } else if ( e.type == "blur" ) {
             // remove session.
 
