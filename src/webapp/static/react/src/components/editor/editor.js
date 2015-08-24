@@ -69,7 +69,7 @@ window.components.editor.editor = React.createClass({
     },
     onUpdate: function (e, rid){
         var self = this;
-        // console.log("Event Type: ", e.type, ",\tKeyCode: ", e.which, ",\tTime: ", e.timeStamp);
+        console.log("Event Type: ", e.type, ",\tKeyCode: ", e.which, ",\tTime: ", e.timeStamp);
         // https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/keyCode
         var KeyCode = { "229": "IME", "13": "Enter", "39": "Right", "37": "Left", "38": "Up", "40": "Down", "32": "Space"  };
         if ( e.type == "focus" ) {
@@ -82,11 +82,38 @@ window.components.editor.editor = React.createClass({
                 this.IME_DATA = [];
             }
         } else if ( e.type == "keyup" ) {
+            if ( e.which == 32 ) {
+                // Ctrl + Space
+                // console.log("Event Type: ", e.type, ",\tKeyCode: ", e.which, ",\tTime: ", e.timeStamp, "With Ctrl: ", e.ctrlKey);
+                // for ( k in e ) {
+                //     console.log( k, ": ", e[k] );
+                // }
+
+                // if ( e.nativeEvent.stopPropagation ) {
+                //     e.nativeEvent.stopPropagation();
+                // } else {
+                //     e.nativeEvent.cancelBubble = true;
+                // }
+                // if ( e.nativeEvent.preventDefault ) {
+                //     e.nativeEvent.preventDefault();
+                // } else {
+                //     e.nativeEvent.returnValue = false;
+                // }
+                // e.stopPropagation();
+                // e.preventDefault();
+                // return false;
+            }
             if ( this.onIME == true ) {
                 this.IME_DATA.push( e.which ); 
                 console.log("输入法: ", JSON.stringify( this.IME_DATA ) );
                 // Space
                 this.onIME = false;
+                if ( e.which == 32 ) {
+                    // 输入法 选词结束
+                    var text = $(".editor")[0].innerText;
+                    // console.log( text );
+                    this.diff( text.bytes() );
+                }
             } else {
                 
             }
@@ -287,7 +314,7 @@ window.components.editor.editor = React.createClass({
                 onInput={self.onUpdate}
                 onClick={self.getPos}
                 dangerouslySetInnerHTML={{__html: this.render_content(this.state.content) }} 
-                style={{ "width": "400px", "height": "400px", "border-style": "solid", "border-color": "yellow" }} />
+                style={{ "width": "400px", "height": "400px", "borderStyle": "solid", "borderColor": "yellow" }} />
         );
         return (
             <div 
