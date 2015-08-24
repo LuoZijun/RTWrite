@@ -122,7 +122,7 @@ window.components.editor.editor = React.createClass({
         console.log(JSON.stringify(b));
 
         var result = {"start": undefined, "end": undefined, "data": [] };
-        
+
         if ( a.length == 0 && b.length == 0 ) {
             // 无差异
             console.info(":: 无差异."); return ;
@@ -131,7 +131,7 @@ window.components.editor.editor = React.createClass({
             // 追加
             console.info("新增内容主体.");
             result['start'] = 0;
-            result['end'] = 0;
+            result['end'] = b.length-1;
             result['data'] = b;
             console.log("Result: ", JSON.stringify(result) );
             return result;
@@ -147,20 +147,23 @@ window.components.editor.editor = React.createClass({
         }
 
         // 正常情况 a.length != 0 && b.length != 0
-        for ( var i=0; i<a.length; i++ ) {
+        for ( var i=0; i<Math.max(a.length, b.length)+1; i++ ) {
             if ( a.length == b.length ) {
                 if (  result['start'] != undefined ) {
                     if (
-                        range(i-1, a.length).every(function (ii){
+                        range(i-2, a.length).every(function (ii){
                             return a[ii] == b[ii];
                         })
                     ) {
-                        result['end'] = i-1;
+                        result['end'] = i-2;
                         result['data'] = b.slice(result['start'], result['end']);
                         break;
                     }
                 } else if ( a[i] != b[i] ) {
                     result['start'] = i;
+                }
+                if ( i == a.length-1 && result['start'] == undefined ) {
+                    console.info("无差异。"); return;
                 }
             } else if ( a.length > b.length ) {
                 if (  result['start'] != undefined ) {
@@ -173,11 +176,20 @@ window.components.editor.editor = React.createClass({
                         result['data'] = a.slice(result['start'], result['end']);
                         break;
                     }
+                } else if ( i == b.length-1 ) {
+                    result['start'] = i;
                 } else if ( a[i] != b[i] ) {
                     result['start'] = i;
                 }
+                if ( i == Math.max(a.length, b.length) && result['end'] == undefined ) {
+                    console.info("a > b");
+                    result['end'] = null;
+                    result['data'] = a.slice(result['start']+1);
+
+                }
             } else if ( a.length < b.length ) {
                 if (  result['start'] != undefined ) {
+                    // 需要判断变异点
                     if (
                         range(i-1, b.length).every(function (ii){
                             return a[ii-Math.abs(a.length-b.length)] == b[ii];
@@ -185,13 +197,20 @@ window.components.editor.editor = React.createClass({
                     ) {
                         result['end'] = i-1;
                         result['data'] = b.slice(result['start'], result['end']);
+
                         break;
                     }
+                } else if ( i == a.length-1 ) {
+                    result['start'] = i;
                 } else if ( a[i] != b[i] ) {
                     result['start'] = i;
                 }
+                if ( i == Math.max(a.length, b.length) && result['end'] == undefined ) {
+                    result['data'] = b.slice( result['start']+1 );
+                }
             }
         }
+
         console.log("Result: ", JSON.stringify(result) );
         return result;
     },
