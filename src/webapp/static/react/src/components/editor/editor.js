@@ -99,9 +99,11 @@ window.components.editor.editor = React.createClass({
                 // } else {
                 //     e.nativeEvent.returnValue = false;
                 // }
-                // e.stopPropagation();
+                e.stopPropagation();
                 // e.preventDefault();
                 // return false;
+                e.nativeEvent.stopImmediatePropagation();
+                return;
             }
             if ( this.onIME == true ) {
                 this.IME_DATA.push( e.which ); 
