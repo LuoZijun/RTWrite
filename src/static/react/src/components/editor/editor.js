@@ -52,7 +52,7 @@ window.components.editor.editor = React.createClass({
         
     },
     componentDidUpdate: function (){
-        
+
     },
     pull: function (){
         var self = this;
@@ -64,7 +64,7 @@ window.components.editor.editor = React.createClass({
             try{
                 var body = JSON.parse(response.body);
                 console.log("Result: \n", body.result);
-
+                self.setState({"content": body.result.content.bytes() });
             }catch(e){
                 console.warn("文件列表获取失败.");return;
             }
