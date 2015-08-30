@@ -42,7 +42,7 @@ def application(environ, start_response):
         str(rpc_request['id']), str(rpc_request['method']), 
         json.dumps(rpc_request['params']) ), "yellow")
     # 嵌入 MySQL Pools
-    rpc_request['params'].append( {"env": environ, "response": {"headers": headers} } )
+    # rpc_request['params'].append( {"env": environ, "response": {"headers": headers} } )
     try:
         rpc_response = RPC( rpc_request )
         if rpc_response == None: rpc_response = {}
@@ -50,7 +50,7 @@ def application(environ, start_response):
         rpc_response = {'jsonrpc': '2.0', 'id': None, 'error': {'message': 'Internal error', 'code': -32603}}
 
     if "id" not in rpc_response: rpc_response['id'] = None
-    if "error" not in rpc_response: rpc_response['error'] = {}
+    if "error" not in rpc_response: rpc_response['error'] = None
     if "result" not in rpc_response: rpc_response['result'] = ""
     # DEBUG
     print termcolor.colored(u"%s\n<<<<<< id: %s\n        ➜        result: %s\n        ➜        error: %s" %(
