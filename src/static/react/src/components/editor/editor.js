@@ -46,15 +46,13 @@ window.components.editor.editor = React.createClass({
         return {"content": [ 25105, 26159, 35841, 10, 25105, 20063, 19981, 30693, 36947, 12290] };
     },
     componentDidMount: function (){
-        
+        this.pull();
     },
     componentWillUpdate: function (){
         
     },
     componentDidUpdate: function (){
-        // $(".editor").keydown(function (e){
-        //     console.log("jquery sim keydown.");
-        // });
+        
     },
     pull: function (){
         var self = this;
@@ -63,9 +61,20 @@ window.components.editor.editor = React.createClass({
             if ( response.code != 200 ) {
                 console.warn(response); return;
             }
-            
+            try{
+                var body = JSON.parse(response.body);
+                console.log("Result: \n", body.result);
+
+            }catch(e){
+                console.warn("文件列表获取失败.");return;
+            }
         };
-        // 获取文件列表
+
+        // 获取文件内容 
+        var url = window.location.origin + "/service";
+        var data = {'jsonrpc': '2.0', 'id': 1, 'params': [window.location.hash.split("/")[1]], "method": "fetch" };
+        requests.put(url, data, {"async": true, "callback": callback});
+
     },
     onUpdate: function (e, rid){
         var self = this;
