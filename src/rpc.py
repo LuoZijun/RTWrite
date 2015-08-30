@@ -3,10 +3,11 @@
 
 from jsonrpc2 import JsonRpc
 
+import os,sys
+
 def index(*args):
     print args
-    return ["test.txt", "test2.rst"]
-
+    return [f for f in os.listdir("media") if f[-4:] != ".log"]
 
 def create_file(*args):
     print args
@@ -24,5 +25,6 @@ def update_file(*args):
 def rpc():
     rpc = JsonRpc()
     rpc['index'] = index
+    rpc['update'] = update_file
     return rpc
 
