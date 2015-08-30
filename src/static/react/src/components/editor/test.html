@@ -1,0 +1,43 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+    <head>
+        <title> new document </title>
+        <script language="javascript">
+        function setPos(caretPos){
+            console.log("event.");
+            var elem = document.getElementById("test");
+            if(elem != null) {
+                if(elem.createTextRange) {
+                    var range = elem.createTextRange();
+                    range.move('character', caretPos);
+                    range.select();
+                } else {
+                    if(elem.selectionStart) {
+                        elem.focus();
+                        elem.setSelectionRange(caretPos, caretPos);
+                    } else {
+                        elem.focus();
+                    }
+                }
+            }
+
+        }
+        function setSelect(){
+            var node = document.getElementById("test");
+            var range = document.createRange();
+            range.setStart(node, 0);
+            range.setEnd(node, 0); // here 0 and 4 is my location and length for the selection
+            // if my string is "This is test string" in my case its must select "This" 
+            var selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+        }
+        </script>
+    </head>
+    <body>
+        <p id="test" contenteditable onmouseover="setSelect(5)">Hello, 世界！
+        我是.
+        </p>
+        
+    </body>
+</html>
