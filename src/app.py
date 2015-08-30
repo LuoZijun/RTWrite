@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 #-*- coding:utf-8 -*-
 
-# termcolor.colored( '>> hi', 'red' )
 import termcolor
 import json, time
 
