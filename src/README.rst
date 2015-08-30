@@ -5,6 +5,44 @@
 
 .. contents::
 
+部署
+---------
+
+1.  设置前端静态文件路径
+
+.. Note:: 
+    
+    在 `Nginx` (或者其它WEB服务器)上面设置 `Loction` 指向 `RTWrite/src/` 目录。
+    出于安全因素，同时请不要忘记加上一个访问限制，对 Python 文件静止访问。
+
+::
+
+    # Nginx Location Config.
+    Location / {
+        root    RTWrite/src/;
+        index   index.html;
+    }
+    Location /static {
+        root    RTWrite/src/static;
+        
+    }
+    Location ~ (.*)\.py {
+        deny    all;
+    }
+    Location ~ /\.git(.*)$ {
+        deny    all;
+    }
+
+
+
+2.  运行后端 RPC 服务
+
+.. code:: base
+    
+    python app.py
+
+
+
 React事件
 ---------------------
 
