@@ -16,7 +16,6 @@ The paradise kingfishers of New Guinea have unusually long tails for the group.
 介绍
 ------
 
-`翠鸟` 项目提供华图题库基于HTTP协议JsonRPC格式的身份认证服务，以及基于密码学的验证码验证服务。
 
 
 基于密码学的Token
