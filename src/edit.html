@@ -1,0 +1,91 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8">
+	<title>Rt Write</title>
+    <style type="text/css">
+        body{
+            margin:0;
+            padding:0;
+            font-family: Helvetica, Tahoma, Arial, "Hiragino Sans GB", "Microsoft YaHei";
+        }
+        .doc{
+            background-color:#fdfdfd;
+            color:#666;
+        }
+        .doc-container{
+            width:780px;
+            margin:0 auto;
+        }
+        .doc-header .title{
+            display:inline-block;
+            height:50px;
+            font-size:16px;
+            line-height:50px;
+        }
+        
+        .doc-header .last-modified{
+           font-size:14px;
+           margin-left:6px;
+           color:#aaa;
+        }
+        
+        .doc-header .save{
+            float:right;
+            display:inline-block;
+            border-radius: 4px;
+            cursor: pointer;
+            border-radius: 4px;
+            -webkit-border-radius: 4px;
+            -moz-border-radius: 4px;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            -o-user-select: none;
+            user-select: none;
+            text-align: center;
+            border: 1px solid #d9d9d9;
+            box-shadow: 0 1px 2px #ddd;
+            background: -webkit-linear-gradient(top, #fff, #f4f4f4);
+            width: 52px;
+            height: 26px;
+            line-height: 26px;
+            margin-top: 8px;
+            color: #888;
+        }
+        .doc-header{
+            height:50px;
+            box-shadow: 0 2px 4px rgba(20,20,20,0.15);
+        }
+        .doc-view{            
+            margin:15px auto 30px auto;
+            padding:20px 40px;
+            background-color: #fff;
+            border: 1px solid #d9d9d9;
+            box-shadow: 0px 1px 6px #ccc;
+        }
+        .doc-edit{
+            width:100%;
+            height:900px;
+            outline:none;
+            font-size:14px;
+        }
+    </style>
+</head>
+<body>
+<div class="doc">
+    <div class="doc-header">
+        <div class="doc-container">
+            <span class="title">Rt Write</span>
+            <span class="title last-modified">2015-08-31 20:59:00</span>
+            <span class="save">历史</span>
+        </div>
+    </div>
+    <div class="doc-container">
+        <div class="doc-view">
+        <div class="doc-edit" contenteditable="true"></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
