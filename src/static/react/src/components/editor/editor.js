@@ -314,9 +314,10 @@ window.components.editor.editor = React.createClass({
         var self = this;
         //  onKeyPress onKeyUp
         // dangerouslySetInnerHTML={{__html: this.render_content(this.state.content) }} 
+        // style={{ "width": "400px", "height": "400px", "borderStyle": "solid", "borderColor": "yellow" }} />
         return (
             <div 
-                className="editor" 
+                className="editor main" 
                 contentEditable={true}
                 onKeyDown={self.onUpdate}
                 onKeyUp={self.onUpdate}
@@ -324,8 +325,7 @@ window.components.editor.editor = React.createClass({
                 // onBlur={self.onUpdate}
                 onInput={self.onUpdate}
                 onClick={self.getPos}
-                dangerouslySetInnerHTML={{__html: this.render_content(this.state.content) }} 
-                style={{ "width": "400px", "height": "400px", "borderStyle": "solid", "borderColor": "yellow" }} />
+                dangerouslySetInnerHTML={{__html: this.render_content(this.state.content) }} />
         );
         return (
             <div 
