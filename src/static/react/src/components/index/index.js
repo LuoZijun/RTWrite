@@ -52,7 +52,7 @@ window.components.index.index = React.createClass({
                         return (
                             <li onClick={self.open.bind(self, file)}>
                                 <div className="li-img">
-                                    <img src="http://pic.sucaibar.com/pic/201306/22/9d9804c4ae.png" />
+                                    <img src="static/images/document.jpg" />
                                 </div>
                                 <div className="title">{file}</div>
                                 <div className="time">
