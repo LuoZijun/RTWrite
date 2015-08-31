@@ -11,10 +11,7 @@
 
 1.  设置前端静态文件路径
 
-.. NOTE:: 
-    
-    在 `Nginx` (或者其它WEB服务器)上面设置 `Loction` 指向 `RTWrite/src/` 目录。
-    出于安全因素，同时请不要忘记加上一个访问限制，对 Python 文件静止访问。
+.. NOTE:: 在 `Nginx` (或者其它WEB服务器)上面设置 `Loction` 指向 `RTWrite/src/` 目录。出于安全因素，同时请不要忘记加上一个访问限制，对 Python 文件静止访问。
 
 ::
 
