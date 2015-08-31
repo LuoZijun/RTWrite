@@ -25,7 +25,10 @@
     }
     Location /static {
         root    RTWrite/src/static;
-
+    }
+    Location /service {
+        # app.py 监听的地址
+        proxy_pass  http://127.0.0.1:8000;
     }
     Location ~ (.*)\.py {
         deny    all;
