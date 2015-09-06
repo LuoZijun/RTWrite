@@ -197,6 +197,12 @@ window.components.editor.editor = React.createClass({
                 if ( i == a.length-1 && result['start'] == undefined ) {
                     console.info("无差异。"); return;
                 }
+                // NOTE: 最后一位字符被替换的情况
+                if ( result['start'] != undefined && result['end'] == undefined ) {
+                    result['end'] = result['start']+1;
+                    result['data'] = b.slice(result['start']+1);
+                    result['handle'] = "replace";
+                }
             } else if ( a.length > b.length ) {
                 if (  result['start'] != undefined ) {
                     if (
