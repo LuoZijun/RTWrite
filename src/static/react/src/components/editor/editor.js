@@ -150,7 +150,7 @@ window.components.editor.editor = React.createClass({
         console.log(JSON.stringify(a));
         console.log(JSON.stringify(b));
 
-        var result = {"start": undefined, "end": undefined, "data": [] };
+        var result = {"handle": "", "start": undefined, "end": undefined, "data": [] };
 
         if ( a.length == 0 && b.length == 0 ) {
             // 无差异
@@ -162,6 +162,7 @@ window.components.editor.editor = React.createClass({
             result['start'] = 0;
             result['end'] = b.length-1;
             result['data'] = b;
+            result['handle'] = "append";
             console.log("Result: ", JSON.stringify(result) );
             return result;
         }
@@ -171,6 +172,7 @@ window.components.editor.editor = React.createClass({
             result['start'] = 0;
             result['end'] = -1;
             result['data'] = [];
+            result['handle'] = "remove";
             console.log("Result: ", JSON.stringify(result) );
             return result;
         }
@@ -186,6 +188,7 @@ window.components.editor.editor = React.createClass({
                     ) {
                         result['end'] = i-2;
                         result['data'] = b.slice(result['start'], result['end']);
+                        result['handle'] = "replace";
                         break;
                     }
                 } else if ( a[i] != b[i] ) {
@@ -203,6 +206,7 @@ window.components.editor.editor = React.createClass({
                     ) {
                         result['end'] = i-1;
                         result['data'] = a.slice(result['start'], result['end']);
+                        result['handle'] = "replace";
                         break;
                     }
                 } else if ( i == b.length-1 ) {
@@ -214,7 +218,7 @@ window.components.editor.editor = React.createClass({
                     console.info("a > b");
                     result['end'] = null;
                     result['data'] = a.slice(result['start']+1);
-
+                    result['handle'] = "append";
                 }
             } else if ( a.length < b.length ) {
                 if (  result['start'] != undefined ) {
@@ -226,7 +230,7 @@ window.components.editor.editor = React.createClass({
                     ) {
                         result['end'] = i-1;
                         result['data'] = b.slice(result['start'], result['end']);
-
+                        result['handle'] = "insert";
                         break;
                     }
                 } else if ( i == a.length-1 ) {
@@ -236,6 +240,7 @@ window.components.editor.editor = React.createClass({
                 }
                 if ( i == Math.max(a.length, b.length) && result['end'] == undefined ) {
                     result['data'] = b.slice( result['start']+1 );
+                    result['handle'] = "append";
                 }
             }
         }
