@@ -316,6 +316,32 @@ window.components.editor.editor = React.createClass({
         // dangerouslySetInnerHTML={{__html: this.render_content(this.state.content) }} 
         // style={{ "width": "400px", "height": "400px", "borderStyle": "solid", "borderColor": "yellow" }} />
         return (
+            <div className="doc">
+                <div className="doc-header">
+                    <div className="doc-container">
+                        <span className="title">Rt Write</span>
+                        <span className="title last-modified">2015-08-31 20:59:00</span>
+                        <span className="save">历史</span>
+                    </div>
+                </div>
+                <div className="doc-container">
+                    <div className="doc-view">
+                    <div 
+                        className="editor doc-edit" 
+                        contentEditable={true}
+                        onKeyDown={self.onUpdate}
+                        onKeyUp={self.onUpdate}
+                        // onKeyUp={self.onUpdate}
+                        // onBlur={self.onUpdate}
+                        onInput={self.onUpdate}
+                        onClick={self.getPos}
+                        dangerouslySetInnerHTML={{__html: this.render_content(this.state.content) }} />
+                    </div>
+                </div>
+            </div>
+
+        );
+        return (
             <div 
                 className="editor main" 
                 contentEditable={true}

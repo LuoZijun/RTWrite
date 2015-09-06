@@ -11,17 +11,83 @@
 
         <style>
         /* 首页样式 */
-        *{margin:0;padding:0;}
-        body{background:#f7f7f7;font-family:"Microsoft Yahei";}
-        .main{margin:30px auto;padding-bottom:50px;width:675px;}
-        .main ul{margin-left:-15px;}
-        .main ul li{list-style:none;float:left;margin-left:15px;margin-top:15px;width:210px;height:325px;border:1px solid #ddd;}
-        .main li:hover{border:1px solid #4285F4;}
-        .main img{border:0px;}
-        .main .li-img{width:210px;height:260px;background:#FBFBFB;}
-        .main .li-img img{width:210px;}
-        .main .title{padding-left:10px;padding-top:10px;border-top:1px solid #ddd;}
-        .main .time{padding-left:10px;font-size:12px;}
+            *{margin:0;padding:0;}
+            .main{margin:30px auto;padding-bottom:50px;width:675px;}
+            .main ul{margin-left:-15px;}
+            .main ul li{list-style:none;float:left;margin-left:15px;margin-top:15px;width:210px;height:325px;border:1px solid #ddd;}
+            .main li:hover{border:1px solid #4285F4;}
+            .main img{border:0px;}
+            .main .li-img{width:210px;height:260px;background:#FBFBFB;}
+            .main .li-img img{width:210px;}
+            .main .title{padding-left:10px;padding-top:10px;border-top:1px solid #ddd;}
+            .main .time{padding-left:10px;font-size:12px;}
+
+
+            body{
+                font-family: Helvetica, Tahoma, Arial, "Hiragino Sans GB", "Microsoft YaHei";
+                background:#f7f7f7;
+            }
+            .doc{
+                background-color:#fdfdfd;
+                color:#666;
+            }
+            .doc-container{
+                width:780px;
+                margin:0 auto;
+            }
+            .doc-header .title{
+                display:inline-block;
+                height:50px;
+                font-size:16px;
+                line-height:50px;
+            }
+            
+            .doc-header .last-modified{
+               font-size:14px;
+               margin-left:6px;
+               color:#aaa;
+            }
+            
+            .doc-header .save{
+                float:right;
+                display:inline-block;
+                border-radius: 4px;
+                cursor: pointer;
+                border-radius: 4px;
+                -webkit-border-radius: 4px;
+                -moz-border-radius: 4px;
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                -o-user-select: none;
+                user-select: none;
+                text-align: center;
+                border: 1px solid #d9d9d9;
+                box-shadow: 0 1px 2px #ddd;
+                background: -webkit-linear-gradient(top, #fff, #f4f4f4);
+                width: 52px;
+                height: 26px;
+                line-height: 26px;
+                margin-top: 8px;
+                color: #888;
+            }
+            .doc-header{
+                height:50px;
+                box-shadow: 0 2px 4px rgba(20,20,20,0.15);
+            }
+            .doc-view{            
+                margin:15px auto 30px auto;
+                padding:20px 40px;
+                background-color: #fff;
+                border: 1px solid #d9d9d9;
+                box-shadow: 0px 1px 6px #ccc;
+            }
+            .doc-edit{
+                width:100%;
+                height:900px;
+                outline:none;
+                font-size:14px;
+            }
         </style>
         <!--
         <link rel="stylesheet" href="static/css/global.css" type="text/css" />
